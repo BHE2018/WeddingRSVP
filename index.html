@@ -49,8 +49,8 @@
   <h1>RSVP for Jennifer & Isaac's Wedding</h1>
 
   <form id="nameForm">
-    <label for="mainGuest">Enter Your Name</label>
-    <input type="text" id="mainGuest" placeholder="e.g., Claudia Ramirez" required />
+    <label for="mainGuest">Enter Your Name / Ingresa Tu Nombre</label>
+    <input type="text" id="mainGuest" placeholder="FirstName/Nombre LastName/Apellido" required />
     <button type="submit">Continue</button>
   </form>
 
@@ -62,8 +62,6 @@
   <script>
     const allowedGuests = {
       "Claudia Ramirez": 6,
-      "": 2,
-      "": 6,
       "Yadira Duran": 2,
       "Juana Duran": 2,
       "Monica Ramirez": 3,
@@ -106,7 +104,7 @@
         nameForm.classList.add("hidden");
         guestForm.classList.remove("hidden");
       } else {
-        alert("Sorry, this name is not on the guest list.");
+        alert("Sorry, this name is not on the guest list / Lo siento, este nombre no está en la lista.");
       }
     });
 
@@ -114,8 +112,8 @@
       guestInputs.innerHTML = `<p>Welcome, ${mainGuestName}. Please enter the names of up to ${count} guest(s):</p>`;
       for (let i = 1; i <= count; i++) {
         guestInputs.innerHTML += `
-          <label for="guest${i}">Guest ${i} Name</label>
-          <input type="text" id="guest${i}" name="guest${i}" placeholder="Guest ${i} Name" />
+          <label for="guest${i}">Guest ${i} Name / Nombre del Invitado ${i}</label>
+          <input type="text" id="guest${i}" name="guest${i}" placeholder="Guest ${i} Name / Nombre" />
         `;
       }
     }
@@ -148,7 +146,7 @@
         body: JSON.stringify(data)
       });
 
-      alert("Thank you for your RSVP!");
+      alert("Thank you for your RSVP! / ¡Gracias por confirmar tu asistencia!");
       guestForm.reset();
       guestForm.classList.add("hidden");
     });
