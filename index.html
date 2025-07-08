@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RSVP for Jennifer & Isaac's Wedding</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #fdf6f0;
+      color: #333;
+      padding: 2em;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      color: #6d4c41;
+    }
+    label, input {
+      display: block;
+      width: 100%;
+      margin-bottom: 1em;
+      font-size: 1em;
+    }
+    input[type="text"] {
+      padding: 0.6em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      background-color: #6d4c41;
+      color: white;
+      padding: 0.7em;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1em;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>RSVP for Jennifer & Isaac's Wedding</h1>
+
+  <form id="nameForm">
+    <label for="mainGuest">Enter Your Name</label>
+    <input type="text" id="mainGuest" placeholder="e.g., Marisol Ramires" required />
+    <button type="submit">Continue</button>
+  </form>
+
+  <form id="guestForm" class="hidden">
+    <div id="guestInputs"></div>
+    <button type="submit">Submit RSVP</button>
+  </form>
+
+  <script>
+    const allowedGuests = {
+      "Marisol Ramires": 8,
+      "Carlos Diaz": 5
+    };
+
+    const nameForm = document.getElementById("nameForm");
+    const guestForm = document.getElementById("guestForm");
+    const guestInputs = document.getElementById("guestInputs");
+
+    let mainGuestName = "";
+
+    nameForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("mainGuest").value.trim();
+      if (allowedGuests[name]) {
+        mainGuestName = name;
+        generateGuestFields(allowedGuests[name]);
+        nameForm.classList.add("hidden");
+        guestForm.classList.remove("hidden");
+      } else {
+        alert("Sorry, this name is not on the guest list.");
+      }
+    });
+
+    function generateGuestFields(count) {
+      guestInputs.innerHTML = `<p>Welcome, ${mainGuestName}. Please enter the names of up to ${count} guests:</p>`;
+      for (let i = 1; i <= count; i++) {
+        guestInputs.innerHTML += `
+          <label for="guest${i}">Guest ${i} Name</label>
+          <input type="text" id="guest${i}" name="guest${i}" placeholder="Guest ${i} Name" />
+        `;
+      }
+    }
+
+    guestForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const guestNames = [];
+      const count = allowedGuests[mainGuestName];
+      for (let i = 1; i <= count; i++) {
+        const guestInput = document.getElementById(`guest${i}`);
+        if (guestInput.value.trim() !== "") {
+          guestNames.push(guestInput.value.trim());
+        }
+      }
+
+      // Construct data to send
+      const data = {
+        mainGuest: mainGuestName,
+        guests: guestNames
+      };
+
+      // ✅ Replace this URL with your Google Apps Script Web App URL
+      const scriptURL = "https://YOUR_SCRIPT_URL_HERE";
+
+      fetch(scriptURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      alert("Thank you for your RSVP!");
+      guestForm.reset();
+      guestForm.classList.add("hidden");
+    });
+  </script>
+
+</body>
+</html>
