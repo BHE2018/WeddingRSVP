@@ -30,7 +30,7 @@
       border-radius: 6px;
     }
     button {
-      background-color: #7a9e7e; /* Sage green button */
+      background-color: #7a9e7e;
       color: white;
       padding: 0.7em;
       font-size: 1em;
@@ -38,6 +38,9 @@
       border-radius: 6px;
       cursor: pointer;
       margin-top: 1em;
+    }
+    #declineButton {
+      background-color: #bbb; /* Gray button for decline */
     }
     .hidden {
       display: none;
@@ -53,6 +56,12 @@
     <input type="text" id="mainGuest" placeholder="FirstName/Nombre LastName/Apellido" required />
     <button type="submit">Continue</button>
   </form>
+
+  <div id="declineContainer" class="hidden">
+    <p>You can proceed to enter your guest names, or let us know if you will not be able to attend.<br>
+    Puedes continuar ingresando los nombres de tus invitados o notificarnos si no podrás asistir.</p>
+    <button id="declineButton">We will not be able to attend / No podremos asistir</button>
+  </div>
 
   <form id="guestForm" class="hidden">
     <div id="guestInputs"></div>
@@ -97,6 +106,8 @@
     const nameForm = document.getElementById("nameForm");
     const guestForm = document.getElementById("guestForm");
     const guestInputs = document.getElementById("guestInputs");
+    const declineContainer = document.getElementById("declineContainer");
+    const declineButton = document.getElementById("declineButton");
 
     let mainGuestName = "";
 
@@ -105,9 +116,10 @@
       const name = document.getElementById("mainGuest").value.trim();
       if (allowedGuests[name]) {
         mainGuestName = name;
-        generateGuestFields(allowedGuests[name]);
         nameForm.classList.add("hidden");
+        declineContainer.classList.remove("hidden");
         guestForm.classList.remove("hidden");
+        generateGuestFields(allowedGuests[name]);
       } else {
         alert("Sorry, this name is not on the guest list / Lo siento, este nombre no está en la lista.");
       }
@@ -134,6 +146,14 @@
         }
       }
 
+      submitRSVP(guestNames);
+    });
+
+    declineButton.addEventListener("click", function() {
+      submitRSVP([]); // No guests
+    });
+
+    function submitRSVP(guestNames) {
       const data = {
         mainGuest: mainGuestName,
         guests: guestNames
@@ -153,7 +173,8 @@
       alert("Thank you for your RSVP! / ¡Gracias por confirmar tu asistencia!");
       guestForm.reset();
       guestForm.classList.add("hidden");
-    });
+      declineContainer.classList.add("hidden");
+    }
   </script>
 
 </body>
