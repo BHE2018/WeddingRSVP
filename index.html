@@ -146,17 +146,18 @@
         }
       }
 
-      submitRSVP(guestNames);
+      submitRSVP(guestNames, false); // Attending
     });
 
     declineButton.addEventListener("click", function() {
-      submitRSVP([]); // No guests
+      submitRSVP([], true); // Not attending
     });
 
-    function submitRSVP(guestNames) {
+    function submitRSVP(guestNames, isDeclined = false) {
       const data = {
         mainGuest: mainGuestName,
-        guests: guestNames
+        guests: guestNames,
+        status: isDeclined ? "Not Attending" : "Attending"
       };
 
       const scriptURL = "https://script.google.com/macros/s/AKfycbzDf6gj3YF45Cx0Qv-e892cEDEDg639dCA_u_0kYlR08APb3XAU2hsi16-nQLm8lD7K/exec";
