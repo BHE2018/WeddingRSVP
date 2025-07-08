@@ -50,7 +50,7 @@
 
   <form id="nameForm">
     <label for="mainGuest">Enter Your Name</label>
-    <input type="text" id="mainGuest" placeholder="e.g., Marisol Ramires" required />
+    <input type="text" id="mainGuest" placeholder="e.g., Claudia Ramirez" required />
     <button type="submit">Continue</button>
   </form>
 
@@ -61,8 +61,34 @@
 
   <script>
     const allowedGuests = {
-      "Marisol Ramires": 8,
-      "Carlos Diaz": 5
+      "Claudia Ramirez": 6,
+      "": 2,
+      "": 6,
+      "Yadira Duran": 2,
+      "Juana Duran": 2,
+      "Monica Ramirez": 3,
+      "Agustin Ramirez": 3,
+      "Cesar Duran": 5,
+      "Geraro Duran": 5,
+      "Scarleth Ramirez": 2,
+      "Eliseo Cabello": 2,
+      "Liston Moris": 4,
+      "Denise Villa": 3,
+      "German Diaz": 2,
+      "Nidia Magana": 5,
+      "Jeniffer Diaz": 5,
+      "Indira Banda": 4,
+      "Isamar Diaz": 5,
+      "Clara Ramirez": 2,
+      "Jose Diaz": 1,
+      "Jessica Mendoza": 6,
+      "Nayely Fernandez": 7,
+      "Aracely Ramirez": 5,
+      "Karen Cisneros": 4,
+      "Patty Isaac": 2,
+      "Katy Hernandez": 4,
+      "Francisco Mendoza": 2,
+      "Lucio Ramirez": 1
     };
 
     const nameForm = document.getElementById("nameForm");
@@ -85,7 +111,7 @@
     });
 
     function generateGuestFields(count) {
-      guestInputs.innerHTML = `<p>Welcome, ${mainGuestName}. Please enter the names of up to ${count} guests:</p>`;
+      guestInputs.innerHTML = `<p>Welcome, ${mainGuestName}. Please enter the names of up to ${count} guest(s):</p>`;
       for (let i = 1; i <= count; i++) {
         guestInputs.innerHTML += `
           <label for="guest${i}">Guest ${i} Name</label>
@@ -105,13 +131,12 @@
         }
       }
 
-      // Construct data to send
       const data = {
         mainGuest: mainGuestName,
         guests: guestNames
       };
 
-      // ✅ Replace this URL with your Google Apps Script Web App URL
+      // 🔗 Replace this with your actual Google Apps Script Web App URL:
       const scriptURL = "https://YOUR_SCRIPT_URL_HERE";
 
       fetch(scriptURL, {
